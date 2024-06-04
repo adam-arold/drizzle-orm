@@ -86,7 +86,8 @@ export class PgDialect {
 					|| Number(lastDbMigration.created_at) < migration.folderMillis
 				) {
 					for (const stmt of migration.sql) {
-						await tx.execute(sql.raw(stmt));
+						const raw = sql.raw(stmt);
+						await tx.execute(raw);
 					}
 					await tx.execute(
 						sql`insert into ${sql.identifier(migrationsSchema)}.${
